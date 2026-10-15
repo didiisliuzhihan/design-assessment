@@ -1,35 +1,35 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="description" content="Evidence-led document retrieval and coverage review design by Zhihan Liu."><title>Marsh & Colby design report · Zhihan Liu</title><link rel="stylesheet" href="site.css"></head><body><nav class="public-nav" aria-label="Site navigation"><a class="brand" href="index.html">ZHIHAN LIU / DESIGN ASSESSMENT</a><a href="index.html" >Overview</a><a href="submission.html" aria-current="page">Report</a><a href="prototype.html">Prototype</a><a href="submission.md" download="Zhihan_Liu_Ajaia_Design_Assessment.md">Download .md ↓</a></nav><main class="wrap"><div class="report-grid"><aside class="toc"><p class="eyebrow">Submission</p><a href="#section-2">Task 1 — Synthesis and next questions</a><a href="#section-5">Task 2 — Design the ideal solution</a><a href="#section-9">Task 3 — AI Workflow Note</a><a href="submission.md" download="Zhihan_Liu_Ajaia_Design_Assessment.md">Download Markdown ↓</a></aside><article class="report"><p><strong>Video:</strong> Recording link will be added before final submission.</p>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="description" content="Evidence-led document retrieval and coverage review design by Zhihan Liu."><title>Marsh & Colby design report · Zhihan Liu</title><link rel="stylesheet" href="site.css"></head><body><nav class="public-nav" aria-label="Site navigation"><a class="brand" href="index.html">ZHIHAN LIU / DESIGN ASSESSMENT</a><a href="index.html" >Overview</a><a href="submission.html" aria-current="page">Report</a><a href="prototype.html">Prototype</a><a href="submission.md" download="Zhihan_Liu_Ajaia_Design_Assessment.md">Download .md ↓</a></nav><main class="wrap"><div class="report-grid"><aside class="toc"><p class="eyebrow">Submission</p><a href="#section-2">Task 1 — Synthesis and next questions</a><a href="#section-5">Task 2 — Design the ideal solution</a><a href="#section-11">Task 3 — AI Workflow Note</a><a href="submission.md" download="Zhihan_Liu_Ajaia_Design_Assessment.md">Download Markdown ↓</a></aside><article class="report"><p><strong>Video:</strong> Recording link will be added before final submission.</p>
 <p><strong>Clickable prototype:</strong> <a href="prototype.html">Three-screen binding review workflow</a><br><strong>User journey:</strong> <a href="journey.svg">Workflow and human checkpoints</a><br><strong>Online report:</strong> <a href="submission.html">Read this submission</a><br><strong>Portfolio:</strong> <a href="https://zhihanliu.art">Zhihan Liu</a> · <strong>Company reference:</strong> <a href="https://ajaia.ai">Ajaia</a></p>
 <h1 id="section-1">Marsh &amp; Colby — Find the evidence. Resolve the exception. Then bind.</h1><p>Zhihan Liu · Digital Product Designer assessment</p>
-<h2 id="section-2">Task 1 — Synthesis and next questions</h2><h3 id="section-3">Needs, not just features</h3><p><strong>Recommendation:</strong> Keep the familiar checklist. Build a source-linked document workspace and an exception-resolution loop around it. These address two different delays: finding evidence and obtaining a usable correction.</p>
+<h2 id="section-2">Task 1 — Synthesis and next questions</h2><h3 id="section-3">Needs, not just features</h3><p><strong>Priority problem:</strong> Assistants need to find the correct documents and move discrepancies toward verified resolution while retaining the familiar checklist. Colin&#39;s retrieval effort is directly supported by timing data; the causes of Anika&#39;s correspondence delays still need investigation. Human review is a constraint throughout, not a third measured bottleneck.</p>
 <p>Evidence labels below identify the supplied material and exact answer/log segment; they are labels added for this submission, not original line numbers.</p>
 <table>
 <thead>
 <tr>
 <th>Need</th>
 <th>Specific evidence</th>
-<th>Design response and limit</th>
+<th>Interpretation and limit</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Find the correct documents across channels without repeatedly hunting through inboxes.</td>
 <td><strong>C1:</strong> Colin&#39;s first answer describes broker email, portal and fax, and searching for loss runs. <strong>C3:</strong> his final answer identifies finding documents as his bottleneck. <strong>LC1:</strong> 11 minutes to locate documents versus 3 minutes for the checklist. <strong>LC2:</strong> 17/54 submissions had off-portal documents; these took longer to locate.</td>
-<td>A per-submission source inventory with channel, received date, version and original document access. Suggest links; have a person confirm uncertain submission matches. Integration and retrieval quality need validation.</td>
+<td>Retrieval is a directly supported priority for Colin. Channel access, document identifiers and version selection still need investigation. Centralization cannot be assumed to remove the entire 11 minutes.</td>
 </tr>
 <tr>
-<td>Resolve document discrepancies with a clear request, owner and visible next step.</td>
+<td>Move document discrepancies toward a verified resolution without unnecessary back-and-forth.</td>
 <td><strong>A2:</strong> Anika&#39;s second answer describes back-and-forth email when certificate and application limits differ, with days waiting. <strong>LA2:</strong> 23/61 submissions had that mismatch. <strong>LA3:</strong> logged flag-to-reply median was 2.1 days; nine submissions exceeded four days.</td>
-<td>Show the precise discrepancy, draft a source-linked request, require human approval before sending, and track the reply. This may reduce avoidable clarification; it cannot guarantee a faster broker response.</td>
+<td>Correspondence is a reported pain. The cause of each wait is unknown; clearer requests reducing repeat clarification is a hypothesis. A reply is not necessarily a usable correction.</td>
 </tr>
 <tr>
-<td>Preserve reliable human review before binding, without rebuilding a checklist people already know.</td>
-<td><strong>A2:</strong> Anika says the checklist is familiar and fine. <strong>C1:</strong> Colin says the checklist goes quickly. <strong>C2/LC3:</strong> his estimate of about a third with discrepancies is consistent with 19/54 logged coverage-limit mismatches. <strong>Situation rule:</strong> a required missing document or a limit that differs from the client&#39;s request prevents binding.</td>
-<td>AI flags differences; a reviewer checks originals and the authorized client request. Missing required evidence or unresolved limits remain hard stops. Neither document is automatically treated as correct.</td>
+<td>Preserve reliable review against the client&#39;s request while retaining the familiar checklist.</td>
+<td><strong>A2:</strong> Anika says the checklist is familiar and fine. <strong>C1:</strong> Colin says the checklist goes quickly. <strong>C2/LC3:</strong> his estimate of about a third with discrepancies is broadly consistent with 19/54 logged coverage-limit mismatches, though the categories are not identical. <strong>Situation rule:</strong> a required missing document or a limit that differs from the client&#39;s request prevents binding.</td>
+<td>This is a safety constraint, not a third measured bottleneck. A difference does not establish which document is correct. The authorized request, required-check catalog and binding authority need confirmation.</td>
 </tr>
 </tbody></table>
 <p><strong>Agreement:</strong> Colin&#39;s account of retrieval being slower than checklist entry agrees with LC1 and LC2. Anika&#39;s report of waiting on mismatch emails also agrees with LA3.</p>
-<p><strong>Non-agreement in priority:</strong> Anika&#39;s proposed fix is faster checklist entry/autofill (<strong>A3</strong>), while her account and the log point toward mismatch correspondence and waiting (<strong>A2, LA2–LA3</strong>). The log does not support treating typing as the main opportunity. This is a priority tension, not a proven numerical contradiction. Her 14 minutes from opening to first flag (<strong>LA1</strong>) is not a measure of checklist-entry time or continuous checking; it cannot be directly compared with Colin&#39;s 3 minutes.</p>
-<p><strong>Scope of the evidence:</strong> Two assistants in two offices, 30 days. The reply-time statistic covers replies that were logged; its denominator is not supplied. We do not know full end-to-end binding time, the cause of each wait, or organization-wide prevalence. No time saving has been measured for this proposal.</p>
+<p><strong>Non-agreement in priority:</strong> Anika proposes faster checklist entry/autofill (<strong>A3</strong>), while her reported pain and the log highlight mismatch correspondence and waiting (<strong>A2, LA2–LA3</strong>). Autofill remains a candidate; her checklist-entry time was not measured, so the evidence cannot establish it as the first priority. Colin&#39;s retrieval priority has direct timing support (<strong>LC1</strong>). This is a priority tension, not a numerical contradiction. Anika&#39;s 14 minutes from opening to first flag (<strong>LA1</strong>) measures a different interval from Colin&#39;s 3 minutes completing the checklist; they cannot be directly compared.</p>
+<p><strong>Scope of the evidence:</strong> Two assistants in two offices, 30 days. The reply-time statistic covers logged replies; its denominator is not supplied, and the pack does not say it covers only the 23 coverage-limit mismatch cases. We do not know full end-to-end binding time, the cause of each wait, or organization-wide prevalence. No time saving has been measured for this proposal.</p>
 <h3 id="section-4">Four next questions — and what each could change</h3><table>
 <thead>
 <tr>
@@ -42,8 +42,8 @@
 <td>Reliable identifiers support suggested linking. Ambiguous matches require a human assignment queue; do not auto-file on name similarity alone.</td>
 </tr>
 <tr>
-<td><strong>2. Anika and a broker:</strong> Walk through a recent flag-to-reply thread. What was each side waiting for, and what caused additional messages?</td>
-<td>If requests lack context, prioritize structured discrepancy requests. If waiting is external availability, emphasize ownership and agreed follow-up rather than promising faster resolution through UI changes.</td>
+<td><strong>2. Anika and a broker:</strong> Walk through a recent discrepancy thread together. What did each side need to proceed, what did each exchange clarify, and what were they waiting for? Which information is routine and which is case-specific?</td>
+<td>Missing context supports a structured request with room for exceptions. Waiting for a corrected document or authorization calls for visible dependencies and ownership. If the other party has everything but has not acted, emphasize follow-up. These causes remain hypotheses until observed.</td>
 </tr>
 <tr>
 <td><strong>3. Both assistants:</strong> When the application and certificate differ, how do you establish the client&#39;s authorized requirement and decide which document needs correction?</td>
@@ -54,8 +54,17 @@
 <td>Configure the required-check catalog and role permissions. The final bind action remains blocked for required missing documents or unresolved limits.</td>
 </tr>
 </tbody></table>
-<h2 id="section-5">Task 2 — Design the ideal solution</h2><p><img src="journey.svg" alt="User journey, exception loop and human checkpoints"></p>
-<h3 id="section-6">Three screens, one continuous workflow</h3><table>
+<h2 id="section-5">Task 2 — Design the ideal solution</h2><h3 id="section-6">Design hypothesis and scope</h3><p>Bring the evidence into the assistant&#39;s existing checklist workflow. Easier source access may reduce retrieval effort (<strong>C1/C3, LC1/LC2</strong>); explicit discrepancy requests may reduce avoidable clarification (<strong>A2, LA2/LA3</strong>). The latter depends on the waiting causes identified in follow-up research. Keep review against the authorized client request throughout (<strong>Situation rule</strong>).</p>
+<p>The assistant prepares and checks the submission; the broker provides clarification or corrections; the person with binding authority makes the final authorization. That authority must be confirmed, not assigned to an invented manager role.</p>
+<h3 id="section-7">Shortest journey and exception loop</h3><pre><code class="language-text">Locate sources → Check originals against the authorized client request
+  Complete and consistent → Prepare authorized bind review
+  Missing, conflicting or uncertain → Record the specific issue
+    → Human approves request → Await needed evidence or clarification
+    → New evidence arrives → Recheck the affected requirements
+</code></pre>
+<p>The normal path does not require a correction request. A reply or newly linked document does not itself clear a check. Reviewers must be able to raise an issue even when AI finds none; an uncertain authorized requirement stays unresolved.</p>
+<p><img src="journey.svg" alt="User journey, exception loop and human checkpoints"></p>
+<h3 id="section-8">Three screens, one continuous workflow</h3><table>
 <thead>
 <tr>
 <th>Screen</th>
@@ -68,23 +77,24 @@
 <td><strong>1. Document workspace</strong></td>
 <td>Find and associate required originals with the submission; see missing items.</td>
 <td>Index connected sources, suggest document types and submission matches.</td>
-<td>Confirm an uncertain source belongs to this submission; inspect its original. Located is not the same as verified.</td>
+<td>Check uncertain source matches to prevent attaching another submission&#39;s evidence. Located is not the same as reviewed.</td>
 </tr>
 <tr>
 <td><strong>2. Compare coverage</strong></td>
-<td>Compare the certificate, application and authorized client request; resolve or confirm a specific discrepancy.</td>
+<td>Compare the certificate, application and authorized client request; identify specific issues.</td>
 <td>Extract candidate values with page references and highlight differences.</td>
-<td>Validate the request baseline and original values. Do not let AI choose which conflicting document is correct. A new version reopens review.</td>
+<td>Check the current authorized request and original values because extraction or either document may be wrong. Reopen affected checks after new evidence arrives.</td>
 </tr>
 <tr>
 <td><strong>3. Resolution and handoff</strong></td>
-<td>Review the correction request, send it, track the reply, then reopen comparison.</td>
+<td>Review the request and next action; track the response and reopen comparison.</td>
 <td>Draft a precise message using the issue and its sources; associate a reply for review.</td>
-<td>Edit/approve the outgoing request. A received reply is not a resolved issue; review the new evidence before preparing the bind package.</td>
+<td>Approve the outgoing request to prevent incorrect or incomplete instructions. Verify the correction before clearing the issue and preparing the bind package.</td>
 </tr>
 </tbody></table>
-<p><strong>Binding gate:</strong> Required documents must be present and reviewed; requested limits must match the reviewed coverage; unresolved exceptions block handoff. The final action in this prototype prepares an authorized bind review, not policy activation. Production must enforce the full requirement catalog, permissions and quote/document versions on the server. The exact binding authority must be confirmed in research.</p>
-<h3 id="section-7">What changes from Owen&#39;s wishlist</h3><table>
+<p><strong>Binding gate:</strong> Required documents must be present and reviewed; requested limits must match the reviewed coverage; unresolved required checks block readiness. Missing evidence can still be escalated or requested while binding remains blocked. The final prototype action prepares an authorized bind review, not policy activation. Production needs the complete requirement catalog, permissions and version-aware review records.</p>
+<p><strong>Routine information and exceptions:</strong> The candidate request template lets the assistant select specific actions, inspect their sources, add case-specific requests and review the resulting editable draft. Ask for authorization clarification when it is unresolved; include a checked requirement as context instead of asking for it again. A selection means “include this request,” not “evidence verified.” Validate recurring fields and whether this reduces omissions using actual correspondence. Rare information can still be mandatory when it affects required documents, authorization or limits; custom text cannot waive those checks. This template&#39;s effectiveness has not been established.</p>
+<h3 id="section-9">What changes from Owen&#39;s wishlist</h3><table>
 <thead>
 <tr>
 <th>Request</th>
@@ -108,10 +118,34 @@
 <td>Keep layouts responsive; validate mobile tasks before investing in full mobile binding. The supplied evidence does not establish that need.</td>
 </tr>
 </tbody></table>
-<h3 id="section-8">Validation and implementation boundaries</h3><p>Test with assistants from both offices and the authorized binding reviewer. Give tasks covering an off-portal document, conflicting limits and a corrected document that still needs review. Compare the existing process with the proposal using comparable cases. Observe retrieval time, external searches, correct issue identification, quality of correction requests and unsafe attempts to advance. Separate active work from waiting; track flag-to-usable-correction time and repeat clarification messages. A broker reply alone is not success.</p>
-<p>Retain the design if people find and interpret evidence with less effort without increasing missed requirements. If linking is unreliable or the main wait is outside the workflow, revise integration or follow-up scope. The prototype&#39;s examples are illustrative fixtures, not additional research or a completed usability study. Ingestion, OCR, email delivery, permissions and durable audit records are simulated.</p>
-<h2 id="section-9">Task 3 — AI Workflow Note</h2><p>I used AI to organize the supplied evidence, draft questions and English, and build the interactive prototype. I chose and approved the direction: keep the checklist, improve document retrieval and discrepancy resolution, and preserve human control over binding. I checked the proposed comparison against the materials and did not adopt the assumption that the application must be correct whenever it differs from the certificate; the design requires confirmation of the client&#39;s authorized request instead. I also retained the distinction between elapsed waiting and active work. AI helped execute the work; it did not provide new research findings or validate the proposed outcome.</p>
-<h3 id="section-10">Evidence reference key</h3><table>
+<h3 id="section-10">Validation and implementation boundaries</h3><p>Test with assistants from both offices and the authorized binding reviewer using comparable cases: an off-portal document, conflicting limits, and a corrected document requiring renewed review. Compare the current process with the proposal; separate active work from waiting.</p>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Observe</th>
+<th>Guardrail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Find the correct evidence</td>
+<td>Retrieval time and external searches</td>
+<td>Check for wrong submission links or obsolete versions.</td>
+</tr>
+<tr>
+<td>Reduce avoidable correspondence</td>
+<td>Clarification exchanges, information missing from the first request, and flag-to-usable-correction time</td>
+<td>Classify waiting causes; a reply alone is not success.</td>
+</tr>
+<tr>
+<td>Preserve reliable review</td>
+<td>Correct discrepancy identification and attempts to advance with missing evidence or unresolved limits</td>
+<td>Observe whether people verify originals and the authorized request, including after a new version arrives.</td>
+</tr>
+</tbody></table>
+<p>Retain the design if people find and interpret evidence with less effort without increasing missed requirements. If linking is unreliable or waiting is external, revise integration or follow-up scope. The prototype demonstrates discrepancy and matching-document examples, plus reviewer-raised concerns. Functional checks verify these interactions, not usability or business improvement. Fixtures, ingestion, OCR, email delivery, permissions and audit persistence are simulated; the full policy/check catalog is outside the demo.</p>
+<h2 id="section-11">Task 3 — AI Workflow Note</h2><p>I used AI to organize the supplied evidence, draft questions and English, and build the interactive prototype. I chose and approved the direction: keep the checklist, improve document retrieval and discrepancy resolution, and preserve human control over binding. I checked the proposed comparison against the materials and did not adopt the assumption that the application must be correct whenever it differs from the certificate; the design requires confirmation of the client&#39;s authorized request instead. I also retained the distinction between elapsed waiting and active work. AI helped execute the work; it did not provide new research findings or validate the proposed outcome.</p>
+<h3 id="section-12">Evidence reference key</h3><table>
 <thead>
 <tr>
 <th>Label</th>

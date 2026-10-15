@@ -40,58 +40,60 @@ Evidence labels below identify the supplied material and exact answer/log segmen
 
 ## Task 2 — Design the ideal solution
 
-### Design hypothesis and scope
+### Design hypothesis and journey
 
-Bring the evidence into the assistant's existing checklist workflow. Easier source access may reduce retrieval effort (**C1/C3, LC1/LC2**); explicit discrepancy requests may reduce avoidable clarification (**A2, LA2/LA3**). The latter depends on the waiting causes identified in follow-up research. Keep review against the authorized client request throughout (**Situation rule**).
+Keep the familiar checklist and put its evidence within reach. Source access targets Colin's documented retrieval effort (**C1/C3, LC1/LC2**). Turning reviewed gaps into specific requests may reduce avoidable clarification for Anika (**A2, LA2/LA3**); that benefit remains unproven.
 
-The assistant prepares and checks the submission; the broker provides clarification or corrections; the person with binding authority makes the final authorization. That authority must be confirmed, not assigned to an invented manager role.
+![User journey and human checkpoints](https://assessment.zhihanliu.art/journey.svg)
 
-### Shortest journey and exception loop
+### Three screens and their decisions
 
-```text
-Locate sources → Check originals against the authorized client request
-  Complete and consistent → Prepare authorized bind review
-  Missing, conflicting or uncertain → Record the specific issue
-    → Human approves request → Await needed evidence or clarification
-    → New evidence arrives → Recheck the affected requirements
-```
-
-The normal path does not require a correction request. A reply or newly linked document does not itself clear a check. Reviewers must be able to raise an issue even when AI finds none; an uncertain authorized requirement stays unresolved.
-
-![User journey, exception loop and human checkpoints](https://assessment.zhihanliu.art/journey.svg)
-
-### Three screens, one continuous workflow
-
-| Screen | Assistant's job | AI assistance | Human checkpoint |
+| Screen | User task | AI assistance | Human checkpoint and reason |
 | --- | --- | --- | --- |
-| **1. Document workspace** | Find and associate required originals with the submission; see missing items. | Index connected sources, suggest document types and submission matches. | Check uncertain source matches to prevent attaching another submission's evidence. Located is not the same as reviewed. |
-| **2. Compare coverage** | Compare the certificate, application and authorized client request; identify specific issues. | Extract candidate values with page references and highlight differences. | Check the current authorized request and original values because extraction or either document may be wrong. Reopen affected checks after new evidence arrives. |
-| **3. Resolution and handoff** | Review the request and next action; track the response and reopen comparison. | Draft a precise message using the issue and its sources; associate a reply for review. | Approve the outgoing request to prevent incorrect or incomplete instructions. Verify the correction before clearing the issue and preparing the bind package. |
+| **1. Documents** | Find required originals across portal, broker email and fax. | Suggest source matches and organize available documents. | Inspect submission identity before linking a suggested match, preventing another submission's evidence from entering the review. |
+| **2. Review checklist** | Check each requirement beside candidate findings and source links. | Prepare candidate values and highlight possible differences. | Open originals and record **verified / needs correction / needs clarification**. Confirm the current authorized request; neither application nor certificate is automatically correct. Add a review item when AI misses a concern. |
+| **3. Follow-up** | Inspect a structured request generated from the checklist's open items. | Organize findings, requested actions and sources into an editable draft. | Review the actual message before approving it. Clear issues only after checking new evidence; a reply is not resolution. |
 
-**Binding gate:** Required documents must be present and reviewed; requested limits must match the reviewed coverage; unresolved required checks block readiness. Missing evidence can still be escalated or requested while binding remains blocked. The final prototype action prepares an authorized bind review, not policy activation. Production needs the complete requirement catalog, permissions and version-aware review records.
+### Checklist → structured request
 
-**Routine information and exceptions:** The candidate request template lets the assistant select specific actions, inspect their sources, add case-specific requests and review the resulting editable draft. Ask for authorization clarification when it is unresolved; include a checked requirement as context instead of asking for it again. A selection means “include this request,” not “evidence verified.” Validate recurring fields and whether this reduces omissions using actual correspondence. Rare information can still be mandatory when it affects required documents, authorization or limits; custom text cannot waive those checks. This template's effectiveness has not been established.
+| Human review status | Effect on the draft and readiness |
+| --- | --- |
+| Not reviewed | Remains pending and blocks readiness; AI does not invent a reviewer decision. |
+| **✓ Verified** | Included as context only when useful; no repeated request for that information. |
+| **× Needs correction** | Generates a specific correction or missing-document request with its sources and optional reviewer detail. |
+| **? Needs clarification** | Generates a question rather than asserting which conflicting value is correct. |
 
-### What changes from Owen's wishlist
+Reviewer-added requirements enter the same flow. Routine fields and wording are candidates to validate against real correspondence; rare requirements still need explicit handling when they affect binding.
+
+The third screen updates automatically from review decisions. If the reviewer has edited the message, later checklist changes preserve those edits and flag the draft for refresh before sending; the previous edited version remains available. There is no second set of generic confirmation boxes.
+
+**Normal path:** Complete, consistent and verified requirements proceed directly to an authorized bind-review package, without a correction request. Missing or unresolved requirements block readiness, while requests for clarification remain possible. The assistant prepares the package; actual binding authority must be established in research. The prototype never activates a policy.
+
+**New evidence:** A broker reply supplies an illustrative certificate v2 and request confirmation. Affected authorization and limit reviews reopen; reviewer-added concerns remain unresolved until checked. Reviewed versions travel with the package.
+
+### Decisions on Owen's wishlist
 
 | Request | Decision |
 | --- | --- |
-| Smart autofill | Keep source-linked extraction as assistance; defer unattended checklist completion. Entered values still need evidence and human review. |
-| Cleaner interface | Improve readability and source visibility in service of the workflow, rather than a cosmetic redesign alone. |
-| AI chat | Defer as a primary interface: neither interview demonstrates a need to converse with the tool. Put assistance directly beside documents and actions. |
-| Mobile access | Keep layouts responsive; validate mobile tasks before investing in full mobile binding. The supplied evidence does not establish that need. |
+| Autofill | Retain source-linked candidate values; prioritize retrieval and verified exception handling over unattended checklist completion. |
+| Modern interface | Use a compact source list, review table and request editor. Keep research commentary in the report. |
+| AI chat | Defer: neither interview establishes chat as the needed interface. |
+| Mobile access | Validate specific tasks and constraints before prioritizing a full mobile workflow. |
 
-### Validation and implementation boundaries
+### Validation and limits
 
-Test with assistants from both offices and the authorized binding reviewer using comparable cases: an off-portal document, conflicting limits, and a corrected document requiring renewed review. Compare the current process with the proposal; separate active work from waiting.
+Test comparable tasks with assistants from both offices and the authorized binding reviewer, including an off-portal document, conflicting limits and a new version.
 
 | Need | Observe | Guardrail |
 | --- | --- | --- |
-| Find the correct evidence | Retrieval time and external searches | Check for wrong submission links or obsolete versions. |
-| Reduce avoidable correspondence | Clarification exchanges, information missing from the first request, and flag-to-usable-correction time | Classify waiting causes; a reply alone is not success. |
-| Preserve reliable review | Correct discrepancy identification and attempts to advance with missing evidence or unresolved limits | Observe whether people verify originals and the authorized request, including after a new version arrives. |
+| Find correct evidence | Retrieval time and external searches | Wrong submission links or obsolete versions. |
+| Reduce avoidable correspondence | First-request omissions, clarification exchanges and flag-to-usable-correction time | Separate waiting causes; a reply alone is not success. |
+| Preserve reliable review | Missed discrepancies, unsupported verification and unsafe advancement attempts | Inspect originals, authorization and revised evidence. |
 
-Retain the design if people find and interpret evidence with less effort without increasing missed requirements. If linking is unreliable or waiting is external, revise integration or follow-up scope. The prototype demonstrates discrepancy and matching-document examples, plus reviewer-raised concerns. Functional checks verify these interactions, not usability or business improvement. Fixtures, ingestion, OCR, email delivery, permissions and audit persistence are simulated; the full policy/check catalog is outside the demo.
+Retain the proposal if retrieval and interpretation improve without increasing missed requirements. Broker platform adoption is not assumed: requests continue through email. Neither reminders nor structured requests are claimed to eliminate days of external waiting.
+
+The prototype uses illustrative documents and deterministic draft generation to demonstrate the interaction. Source ingestion, model accuracy, actual email delivery, permissions, the complete policy-rule catalog and durable records remain production work. Functional checks are not a real-user study or measured business improvement.
+
 
 ## Task 3 — AI Workflow Note
 

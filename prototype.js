@@ -1,100 +1,99 @@
 (()=>{
  const q=id=>document.getElementById(id);
- const initial=(matching=false)=>({step:1,matching,lossLinked:false,requestVerified:false,mismatchRecorded:false,sent:false,replyReceived:false,limitsReviewed:false,prepared:false,pendingConcern:false,concern:'',askBaseline:true,askCorrection:!matching,special:'',draftDirty:false,messageEdited:false});
- let state=initial(); const events=[];
- const valuesMatch=()=>state.matching||state.replyReceived;
- const version=()=>state.replyReceived?'v2':'v1';
- const ready=()=>state.lossLinked&&state.requestVerified&&state.limitsReviewed&&!state.pendingConcern&&valuesMatch();
- const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const hasRequest=()=>state.askBaseline||state.askCorrection||state.special.trim();
- const draft=()=>{
-  const requests=[];
-  if(state.askBaseline)requests.push('Please confirm the client\'s authorized general liability limit and coverage basis.');
-  if(state.askCorrection)requests.push('Please check the application/certificate difference against the authorized request and supply the appropriate corrected document or explanation.');
-  if(state.special.trim())requests.push(state.special.trim());
-  return 'Hello,\n\nFor Cedar Works LLC / MC-1042, application v1, page 2, states general liability at $1,000,000 per occurrence. Certificate '+version()+', page 1, states '+(valuesMatch()?'$1,000,000':'$500,000')+' for the same coverage and basis.\n'+(state.requestVerified?'The reviewer checked the client-request email, paragraph 2: $1,000,000 per occurrence.':'The client-request email, paragraph 2, still needs authorization review; neither document is automatically correct.')+'\n\n'+requests.map((s,i)=>(i+1)+'. '+s).join('\n')+'\n\nReferences: application p2, certificate p1, client-request email. Binding remains on hold until all required evidence is reviewed and outstanding issues are resolved. Thank you.';
- };
- function event(title,detail){events.push({title,detail});}
- function gates(){
-  const checks=[
-   [state.lossLinked,'Required source groups linked',state.lossLinked?'Application, certificate and loss runs linked.':'Loss runs need a confirmed source match.'],
-   [state.requestVerified,'Authorized request checked',state.requestVerified?'Reviewer checked the source and $1,000,000 request.':'Establish the current authorized requirement.'],
-   [state.limitsReviewed&&valuesMatch(),'Current limits reviewed',state.limitsReviewed?'Certificate '+version()+' checked against the request.':valuesMatch()?'Matching candidate values still need human review.':'Coverage-limit discrepancy remains unresolved.'],
-   [!state.pendingConcern,'Reviewer-raised concerns',state.pendingConcern?state.concern:'No open reviewer-raised concern.']
-  ];
-  document.querySelectorAll('[data-gate]').forEach(el=>{
-   el.innerHTML='<h2>Bind-review readiness</h2><p class="small muted">Missing required evidence or unresolved limits blocks readiness.</p><ul class="gate-list">'+checks.map(([done,title,detail])=>'<li><span class="dot '+(done?'done':'')+'"></span><div><strong>'+escape(title)+'</strong><br><span class="muted">'+escape(detail)+'</span></div></li>').join('')+'</ul><button class="button primary prepare-btn" '+(ready()?'':'disabled')+'>Prepare authorized bind review</button><p class="small muted" style="margin:10px 0 0">Prepares a review package; does not activate a policy.</p>';
-   el.querySelector('.prepare-btn').addEventListener('click',()=>{if(!ready())return;state.prepared=true;state.step=3;event('Review package prepared','Reviewed versions and decisions included. Policy not bound.');render();q('handoff-result').scrollIntoView({behavior:'smooth',block:'center'});});
-  });
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const initial=(matching=false)=>({step:1,matching,linked:false,reply:false,delivery:'draft',prepared:false,review:{documents:'pending',authorization:'pending',limits:'pending'},notes:{documents:'',authorization:'',limits:''},viewed:{application:false,certificate:false,request:false,loss:false},custom:[],events:[],mailEdited:false,lastGenerated:'',mailStale:false,previousDraft:'',sentMessage:'',sentSubject:''});
+ let s=initial();
+ const version=()=>s.reply?'v2':'v1';
+ const matches=()=>s.matching||s.reply;
+ const sourceLabel=k=>({application:'Application v1 · p2',certificate:'Certificate '+version()+' · p1',request:'Request email · ¶2',loss:'Loss runs · Fax'})[k];
+ function rows(){return[
+  {id:'documents',title:'Required documents',finding:s.linked?'3 / 3 documents linked':'Loss runs not linked',detail:'Application · Certificate · Loss runs',sources:['application','certificate','loss'],status:s.review.documents,note:s.notes.documents},
+  {id:'authorization',title:'Client authorization',finding:'$1,000,000 / occurrence',detail:'Extracted from client-request email',sources:['request'],status:s.review.authorization,note:s.notes.authorization},
+  {id:'limits',title:'Coverage limits',finding:matches()?'$1,000,000 ↔ $1,000,000':'$1,000,000 ↔ $500,000',detail:matches()?'Matching candidate values':'Application / certificate differ',sources:['application','certificate','request'],status:s.review.limits,note:s.notes.limits},
+  ...s.custom.map(c=>({...c,finding:c.action||'Reviewer-added item',detail:'Requires evidence review',sources:[c.source]}))
+ ];}
+ const allReviewed=()=>rows().every(r=>r.status==='verified');
+ const ready=()=>s.linked&&matches()&&allReviewed();
+ function event(title,detail=''){s.events.push({title,detail});}
+ function gaps(){return rows().filter(r=>r.status==='correction'||r.status==='unclear').map(r=>{
+  let action='';
+  if(r.id==='documents')action=s.linked?'Clarify the required document set and provide the appropriate current document.':'Provide the loss runs and identify the submission and document period.';
+  else if(r.id==='authorization')action=r.status==='unclear'?"Confirm the client's current authorized general liability limit and basis.":'Provide the current authorized client request or explain the authorization issue.';
+  else if(r.id==='limits')action=r.status==='unclear'?'Clarify the coverage limit difference against the authorized client request.':'Review the application/certificate difference and supply the appropriate correction or explanation against the authorized request.';
+  else action=r.action||('Please clarify: '+r.title+'.');
+  return {...r,action,sourceText:r.sources.map(sourceLabel).join('; ')};
+ });}
+ function buildMail(){
+  const items=gaps();
+  const context=s.review.authorization==='verified'?'CONFIRMED CONTEXT\nClient request: $1,000,000 general liability per occurrence.\nSource: '+sourceLabel('request')+'.\n\n':'';
+  return 'Hello,\n\nPlease help resolve the following items for Cedar Works LLC / MC-1042.\n\n'+context+'REQUESTED ITEMS\n'+items.map((g,i)=>(i+1)+'. '+g.title+'\n   Finding: '+g.finding+'\n   Request: '+g.action+(g.note?'\n   Reviewer note: '+g.note:'')+'\n   Sources: '+g.sourceText+'.').join('\n\n')+'\n\nPlease provide the relevant documents or clarification. We will review the response before clearing these items.\n\nThank you.';
+ }
+ function syncMail(){
+  const next=buildMail();if(next===s.lastGenerated)return;
+  if(s.mailEdited){s.mailStale=true;}else{q('mail-body').value=next;s.mailStale=false;}
+  s.lastGenerated=next;
+ }
+ function renderRows(){
+  q('review-rows').innerHTML=rows().map(r=>'<tr><td>'+esc(r.title)+'</td><td><span class="finding '+((r.id==='limits'&&!matches())||(r.id==='documents'&&!s.linked)?'attention':'')+'">'+esc(r.finding)+'</span><span class="finding-note">'+esc(r.detail)+'</span></td><td><div class="source-links">'+r.sources.map(k=>'<button class="text-action" data-source="'+k+'">'+esc(sourceLabel(k))+'</button>').join('')+'</div></td><td><select class="review-select '+r.status+'" data-review="'+r.id+'" aria-label="Review '+esc(r.title)+'">'+[['pending','Not reviewed'],['verified','✓ Verified'],['correction','× Needs correction'],['unclear','? Needs clarification']].map(([v,t])=>'<option value="'+v+'" '+(r.status===v?'selected':'')+'>'+t+'</option>').join('')+'</select>'+((r.status==='correction'||r.status==='unclear'||r.source)?'<textarea class="review-note" aria-label="Reviewer note for '+esc(r.title)+'" data-note="'+r.id+'" placeholder="'+(r.source?'Resolving evidence + source, before marking verified':'Optional detail for the request')+'">'+esc(r.note||'')+'</textarea>':'')+'</td></tr>').join('');
+  q('review-rows').querySelectorAll('[data-review]').forEach(el=>el.addEventListener('change',()=>{
+   const id=el.dataset.review,value=el.value,row=rows().find(r=>r.id===id);let error='';
+   if(value==='verified'){
+    if(id==='documents'&&!s.linked)error='Link the missing loss runs before verifying the document set.';
+    else if(id==='limits'&&!matches())error='The limits still differ. Record a correction or clarification request.';
+    else if(id==='limits'&&s.review.authorization!=='verified')error='Verify the authorized client request before confirming the limits.';
+    else if(row.sources.some(k=>!s.viewed[k]))error='Open the linked sources before recording verification.';
+    else if(row.source&&!row.note?.trim())error='Record the resolving evidence and source in the reviewer note.';
+   }
+   if(error){renderRows();q('review-feedback').textContent=error;return;}
+   if(id in s.review)s.review[id]=value;else s.custom.find(c=>c.id===id).status=value;
+   s.prepared=false;if(s.delivery==='reply')s.delivery='draft';
+   q('review-feedback').textContent='';event(row.title+' · '+({pending:'Review reopened',verified:'Verified',correction:'Correction requested',unclear:'Clarification requested'})[value]);render();
+  }));
+  q('review-rows').querySelectorAll('[data-note]').forEach(el=>el.addEventListener('input',()=>{
+   const id=el.dataset.note;if(id in s.notes)s.notes[id]=el.value;else s.custom.find(c=>c.id===id).note=el.value;
+   syncMail();
+  }));
  }
  function render(){
-  for(let i=1;i<=3;i++)q('screen-'+i).hidden=state.step!==i;
-  document.querySelectorAll('.step-btn').forEach(b=>{if(Number(b.dataset.step)===state.step)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
-  q('global-status').textContent=state.prepared?'Package prepared · Policy not bound':ready()?'Ready for authorized bind review':'Not ready for bind review';
-  q('global-status').className='badge '+(ready()?'good':'error');
-  q('doc-count').textContent=(state.lossLinked?'3':'2')+' of 3 document groups linked';
-  q('loss-meta').textContent=state.lossLinked?'Fax scan · Submission match confirmed by reviewer':'Required source not linked';
-  q('loss-status').textContent=state.lossLinked?'Linked by reviewer':'Missing';q('loss-status').className='badge '+(state.lossLinked?'good':'warn');
-  q('link-loss').disabled=state.lossLinked;q('link-loss').textContent=state.lossLinked?'Source linked':'Confirm match and link source';
-  q('link-feedback').textContent=state.lossLinked?'Source match checked. Content review remains separate.':'';
-  q('coi-meta').textContent=(state.replyReceived?'Broker reply':'Broker email')+' · Certificate '+version()+' · '+(state.limitsReviewed?'Reviewed against request':valuesMatch()?'Review needed':'Possible mismatch');
-  q('certificate-version').textContent=version()+' · Page 1';
-  q('certificate-limit').textContent=valuesMatch()?'$1,000,000':'$500,000';
-  q('certificate-meta').textContent='Original excerpt · '+(state.replyReceived?'New broker reply':'Broker email')+' · Illustrative document';
-  q('certificate-note').textContent=valuesMatch()?'Matching values do not establish that all requirements are satisfied.':'The difference needs review, not an automatic correction.';
-  q('comparison-status').textContent=state.pendingConcern?'Reviewer concern open':state.limitsReviewed?'Limits reviewed':valuesMatch()?'Matching candidates · Review needed':'Possible limit mismatch';
-  q('comparison-heading').textContent=valuesMatch()?'Matching values still need review.':'Different values. One decision to verify.';
-  q('comparison-status').className='badge '+(state.limitsReviewed&&!state.pendingConcern?'good':'warn');
-  q('difference-banner').className='info-strip '+(state.limitsReviewed?'':valuesMatch()?'warn':'error');
-  q('difference-title').textContent=state.limitsReviewed?'Reviewer checked the current limits against the request.':state.replyReceived?'New certificate received. Review is reopened.':state.matching?'AI did not flag a limit difference. Human review is still needed.':'AI found different limits. Neither document is automatically correct.';
-  q('difference-copy').textContent='Inspect originals, coverage basis and the current authorized request. Record any issue the AI did not identify.';
-  q('request-source').textContent=(state.replyReceived?'Client request confirmed in broker reply':'Client request forwarded by broker')+' · Email, paragraph 2 · Sample data';
-  q('verify-request').textContent=state.requestVerified?'Request source and limit checked':'Confirm request source and limit';q('verify-request').disabled=state.requestVerified;
-  q('request-feedback').textContent=state.requestVerified?'Reviewer confirmed the current authorized requirement.':'';
-  q('record-mismatch').hidden=valuesMatch();q('confirm-match').hidden=!valuesMatch();
-  q('confirm-match').textContent=state.replyReceived?'Confirm revised limits match the request':'Confirm current limits match the request';
-  q('confirm-match').disabled=!state.requestVerified||state.limitsReviewed;
-  q('comparison-feedback').textContent=state.limitsReviewed?'Current limits reviewed. Check remaining readiness items.':valuesMatch()&&!state.requestVerified?'Confirm the authorized request before accepting the match.':'';
-  q('manual-concern').disabled=state.pendingConcern;
-  q('raise-concern').hidden=state.pendingConcern;
-  q('concern-resolution').hidden=!state.pendingConcern;
-  q('concern-summary').textContent='Open concern: '+state.concern;
-  q('resolve-concern').disabled=!state.requestVerified||!state.limitsReviewed;
-  q('resolution-status').textContent=state.prepared?'Package prepared':state.pendingConcern?'Reviewer concern open':ready()?'Ready for handoff':state.replyReceived?'New evidence · Review needed':state.sent?'Awaiting broker response':state.mismatchRecorded?'Request ready to draft':'No request recorded';
-  q('resolution-status').className='badge '+(ready()?'good':'warn');
-  q('request-panel').hidden=state.replyReceived||state.prepared||(state.matching&&!state.mismatchRecorded);
-  q('waiting-panel').hidden=!state.sent||state.replyReceived||state.prepared;
-  q('reply-panel').hidden=!state.replyReceived||state.prepared||(state.limitsReviewed&&!state.pendingConcern);
-  q('baseline-item').hidden=state.requestVerified;
-  q('baseline-context').hidden=!state.requestVerified;
-  q('ask-baseline').checked=state.askBaseline;q('ask-baseline').disabled=state.sent;
-  q('correction-item').hidden=state.matching&&!state.replyReceived;
-  q('ask-correction').checked=state.askCorrection;q('ask-correction').disabled=state.sent;
-  q('request-cert-version').textContent=version();
-  q('special-request').value=state.special;q('special-request').disabled=state.sent;q('update-draft').disabled=state.sent;
-  if(!state.messageEdited&&!state.sent&&!state.draftDirty)q('broker-message').value=draft();
-  q('broker-message').disabled=state.sent;
-  q('send-request').disabled=!state.mismatchRecorded||state.sent||state.draftDirty||!hasRequest();
-  q('send-feedback').textContent=state.sent?'Human-approved and marked sent in this demo. No real email sent.':state.draftDirty?'Selected requests changed. Update the draft, then review it.':!state.mismatchRecorded?'Inspect the comparison and record an issue before sending.':!hasRequest()?'Choose or add a specific request.':'';
-  q('handoff-result').hidden=!state.prepared;
-  q('package-sources').textContent='Application v1 / p2 · Certificate '+version()+' / p1 · Reviewed client-request email · Loss runs fax linked to MC-1042.';
-  q('issue-history').innerHTML=(events.length?events:[{title:'Open review',detail:'Sources and candidate values need checking.'}]).map(e=>'<div class="event"><strong>'+escape(e.title)+'</strong><p>'+escape(e.detail)+'</p></div>').join('');
-  gates();
+  [1,2,3].forEach(i=>q('step-'+i).hidden=s.step!==i);
+  document.querySelectorAll('.rail [data-step]').forEach(b=>{if(Number(b.dataset.step)===s.step)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
+  const items=gaps(),reviewed=rows().filter(r=>r.status==='verified').length,pending=rows().filter(r=>r.status==='pending').length;
+  q('case-status').textContent=s.prepared?'Package prepared':ready()?'Ready for bind review':items.length?items.length+' item'+(items.length===1?'':'s')+' need follow-up':'Review in progress';q('case-status').className='badge '+(ready()?'good':'warn');
+  q('source-count').textContent=(s.linked?'3':'2')+' / 3 required documents';q('loss-source-meta').textContent=s.linked?'Fax · Linked to MC-1042':'Source not linked';q('cert-source-meta').textContent=(s.reply?'Broker reply':'Broker email')+' · '+version()+' · p1';q('match-status').textContent=s.linked?'Linked':'Needs confirmation';q('match-status').className='badge '+(s.linked?'good':'warn');q('link-source').disabled=s.linked;q('link-source').textContent=s.linked?'Source linked':'Confirm match & link';
+  q('review-count').textContent=reviewed+' / '+rows().length+' verified';q('checklist-summary').textContent=pending+' unreviewed · '+items.length+' follow-up';q('prepare-review').disabled=!ready();q('review-followup').textContent='Review follow-up'+(items.length?' ('+items.length+')':'')+' →';renderRows();syncMail();
+  q('followup-heading').textContent=s.prepared?'Review package prepared.':ready()?'Ready for authorized review.':'Request the missing pieces.';
+  q('delivery-status').textContent=s.prepared?'Prepared':s.delivery==='sent'?'Awaiting reply':s.reply&&pending?'Review reopened':'Draft';q('delivery-status').className='badge '+(ready()?'good':'warn');
+  q('reply-notice').hidden=!s.reply||s.prepared||ready();
+  q('ready-panel').hidden=!ready();q('prepare-final').hidden=s.prepared;q('prepared-message').textContent=s.prepared?'Package prepared · Policy not activated.':'';q('ready-sources').textContent='Application v1 · Certificate '+version()+' · Client-request email · Loss runs. All '+rows().length+' review items verified.';
+  q('pending-panel').hidden=items.length>0||ready()||s.delivery==='sent';q('pending-copy').textContent=pending+' item'+(pending===1?' still needs':'s still need')+' your review.';
+  q('compose-layout').hidden=!items.length||s.delivery==='sent'||s.prepared;
+  q('gap-count').textContent=String(items.length);q('draft-origin').textContent='From '+items.length+' checklist item'+(items.length===1?'':'s');
+  q('gap-items').innerHTML=items.map(g=>'<div class="gap-item"><strong>'+esc(g.title)+'</strong><span>'+(g.status==='unclear'?'? Clarification':'× Correction')+'</span><p>'+esc(g.action)+'</p><div class="source-links">'+g.sources.map(k=>'<button class="text-action" data-source="'+k+'">'+esc(sourceLabel(k))+'</button>').join('')+'</div></div>').join('');
+  q('draft-change').hidden=!s.mailStale;q('previous-draft').hidden=!s.previousDraft;q('saved-draft').textContent=s.previousDraft;
+  q('send-mail').disabled=!items.length||s.mailStale||!q('mail-body').value.trim()||!q('mail-subject').value.trim();
+  q('sent-panel').hidden=s.delivery!=='sent';q('sent-summary').textContent=items.length+' requested item'+(items.length===1?'':'s')+' · Owner: underwriting assistant';q('sent-message').textContent=s.sentSubject+'\n\n'+s.sentMessage;
+  q('activity-list').innerHTML=s.events.map(e=>'<div class="activity-row"><strong>'+esc(e.title)+'</strong>'+esc(e.detail)+'</div>').join('');
  }
- function reset(matching){state=initial(matching);events.length=0;q('manual-concern').value='';q('resolution-note').value='';q('concern-feedback').textContent='';render();}
- document.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{state.step=Number(b.dataset.step);render();}));
- q('link-loss').addEventListener('click',()=>{state.lossLinked=true;event('Loss runs linked','Reviewer checked submission reference MC-1042 and the named insured.');render();});
- q('verify-request').addEventListener('click',()=>{state.requestVerified=true;state.askBaseline=false;event('Authorized request checked','Reviewer checked source, authorization and coverage basis.');render();});
- q('record-mismatch').addEventListener('click',()=>{state.mismatchRecorded=true;state.step=3;event('Discrepancy recorded','Application and certificate limits differ for the same coverage and basis.');render();});
- q('raise-concern').addEventListener('click',()=>{const reason=q('manual-concern').value.trim();if(!reason){q('concern-feedback').textContent='Describe the concern and source first.';return;}state.pendingConcern=true;state.concern=reason;state.prepared=false;state.requestVerified=false;state.limitsReviewed=false;state.askBaseline=true;state.mismatchRecorded=true;state.special=reason;state.draftDirty=true;state.step=3;event('Reviewer raised concern',reason);render();});
- q('resolve-concern').addEventListener('click',()=>{if(!state.requestVerified||!state.limitsReviewed)return;const note=q('resolution-note').value.trim();if(!note){q('concern-feedback').textContent='Record the resolving evidence and its source.';return;}event('Reviewer resolved concern',note);state.pendingConcern=false;state.concern='';q('manual-concern').value='';q('resolution-note').value='';q('concern-feedback').textContent='Resolution recorded with the reviewer\'s evidence note.';render();});
- ['ask-baseline','ask-correction'].forEach(id=>q(id).addEventListener('change',()=>{state[id==='ask-baseline'?'askBaseline':'askCorrection']=q(id).checked;state.draftDirty=true;render();}));
- q('special-request').addEventListener('input',()=>{state.special=q('special-request').value;state.draftDirty=true;q('send-request').disabled=true;q('send-feedback').textContent='Requests changed. Update the draft, then review it.';});
- q('update-draft').addEventListener('click',()=>{state.draftDirty=false;state.messageEdited=false;q('broker-message').value=draft();render();});
- q('broker-message').addEventListener('input',()=>{state.messageEdited=true;});
- q('send-request').addEventListener('click',()=>{if(!state.mismatchRecorded||state.sent||state.draftDirty||!hasRequest())return;if(!q('broker-message').value.trim()){q('send-feedback').textContent='Write a specific request before sending.';return;}state.sent=true;event('Request approved and marked sent','Human checked the editable request. Demo: no email delivery.');render();});
- q('load-reply').addEventListener('click',()=>{state.replyReceived=true;state.requestVerified=false;state.limitsReviewed=false;state.prepared=false;event('Broker reply and certificate v2 received','New version reopens review. Reviewer-raised concerns remain open.');render();});
- q('confirm-match').addEventListener('click',()=>{if(!valuesMatch()||!state.requestVerified)return;state.limitsReviewed=true;event('Current limits reviewed','Reviewer compared certificate '+version()+' with the authorized request.');render();});
- q('reset-demo').addEventListener('click',()=>reset(false));q('matching-demo').addEventListener('click',()=>reset(true));
- render();
+ function showSource(key){
+  s.viewed[key]=true;q('source-title').textContent=({application:'Application',certificate:'Certificate of insurance',request:'Client request',loss:'Loss runs'})[key];q('source-channel').textContent=sourceLabel(key);
+  let fields=[];
+  if(key==='application'||key==='certificate')fields=[['Named insured','Cedar Works LLC'],['Submission','MC-1042'],['Coverage','General liability'],['Basis','Per occurrence'],[key==='application'?'Requested limit':'Stated limit',key==='application'||matches()?'$1,000,000':'$500,000']];
+  if(key==='loss')fields=[['Named insured','Cedar Works LLC'],['Submission','MC-1042'],['Period','2023–2026'],['Channel','Fax scan']];
+  q('source-content').innerHTML=key==='request'?'<blockquote class="source-quote">Please arrange general liability at $1,000,000 per occurrence for Cedar Works LLC.</blockquote><p class="small muted">'+(s.reply?'Broker reply confirms this is the current client request.':'Forwarded client email. Confirm that this is the current authorized request.')+'</p>':'<dl>'+fields.map(([k,v])=>'<dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd>').join('')+'</dl>';
+  q('source-dialog').showModal();
+ }
+ function prepare(){if(!ready())return;s.prepared=true;s.step=3;event('Bind-review package prepared','Reviewed source versions included. Policy not activated.');render();}
+ function reset(matching){s=initial(matching);q('mail-body').value='';q('mail-subject').value='MC-1042 · Coverage review — information needed';q('review-feedback').textContent='';q('send-feedback').textContent='';q('custom-title').value='';q('custom-action').value='';render();}
+ document.addEventListener('click',e=>{const source=e.target.closest('[data-source]');if(source)showSource(source.dataset.source);const step=e.target.closest('[data-step]');if(step){s.step=Number(step.dataset.step);render();}});
+ q('close-source').addEventListener('click',()=>q('source-dialog').close());
+ q('link-source').addEventListener('click',()=>{s.linked=true;s.viewed.loss=true;event('Loss runs linked','Fax matched to Cedar Works LLC / MC-1042.');render();});
+ q('review-followup').addEventListener('click',()=>{s.step=3;render();});
+ q('prepare-review').addEventListener('click',prepare);q('prepare-final').addEventListener('click',prepare);
+ q('add-item').addEventListener('click',()=>{const title=q('custom-title').value.trim();if(!title){q('review-feedback').textContent='Name the requirement to add.';q('custom-title').focus();return;}s.custom.push({id:'custom-'+(s.custom.length+1),title,source:q('custom-source').value,action:q('custom-action').value.trim(),note:'',status:'unclear'});s.prepared=false;event('Reviewer added requirement',title);q('custom-title').value='';q('custom-action').value='';q('review-feedback').textContent='';render();});
+ q('mail-body').addEventListener('input',()=>{s.mailEdited=true;q('send-mail').disabled=s.mailStale||!q('mail-body').value.trim()||!q('mail-subject').value.trim();});
+ q('mail-subject').addEventListener('input',()=>{q('send-mail').disabled=s.mailStale||!q('mail-body').value.trim()||!q('mail-subject').value.trim();});
+ q('refresh-mail').addEventListener('click',()=>{s.previousDraft=q('mail-body').value;s.mailEdited=false;s.mailStale=false;q('mail-body').value=buildMail();s.lastGenerated=buildMail();render();});
+ q('send-mail').addEventListener('click',()=>{if(!gaps().length||s.mailStale||!q('mail-body').value.trim()||!q('mail-subject').value.trim())return;s.sentMessage=q('mail-body').value;s.sentSubject=q('mail-subject').value;s.delivery='sent';event('Request approved and marked sent',gaps().length+' checklist items. Demo only.');render();});
+ q('load-reply').addEventListener('click',()=>{s.reply=true;s.delivery='reply';s.prepared=false;s.review.authorization='pending';s.review.limits='pending';s.viewed.request=false;s.viewed.certificate=false;s.mailEdited=false;s.mailStale=false;s.lastGenerated='';event('Broker reply received','Certificate v2 and current client request require review.');render();});
+ q('matching-example').addEventListener('click',()=>reset(true));q('reset-example').addEventListener('click',()=>reset(false));render();
 })();

@@ -97,7 +97,7 @@ The prototype uses illustrative documents and deterministic draft generation to 
 
 ## Task 3 — AI Workflow Note
 
-I used AI to organize the supplied evidence, draft questions and English, and build the interactive prototype. I chose and approved the direction: keep the checklist, improve document retrieval and discrepancy resolution, and preserve human control over binding. I checked the proposed comparison against the materials and did not adopt the assumption that the application must be correct whenever it differs from the certificate; the design requires confirmation of the client's authorized request instead. I also retained the distinction between elapsed waiting and active work. AI helped execute the work; it did not provide new research findings or validate the proposed outcome.
+I used AI to organize and cross-check the supplied evidence, draft follow-up questions, and implement the interactive prototype. I made the final evidence and scope decisions: prioritize retrieval, retain the familiar checklist, and verify coverage against the client's authorized request. An early AI-generated prototype centered follow-up on a free-form email draft; I changed it so item-level human review decisions generate structured requests with sources. I retained intelligent checklist assistance for evidence preparation and coordination, without treating autofill as a proven top priority or AI output as verified evidence. People can edit and approve the message, and must recheck new evidence before clearing issues; these proposed benefits remain unvalidated.
 
 ### Evidence reference key
 

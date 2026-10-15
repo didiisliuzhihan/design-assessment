@@ -1,0 +1,109 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="description" content="Fictional design practice by Zhihan Liu. Quote approval, supporting evidence, and human decisions."><title>Earlier version: generic confirmations · Harbor Rooms</title><link rel="stylesheet" href="site.css"></head><body><div class="nav-wrap"><nav class="site-nav" aria-label="Main navigation"><a class="brand" href="index.html">HARBOR ROOMS / DESIGN REVIEW</a><a href="index.html">Overview</a><a href="submission.html">Report</a><a href="prototype.html" aria-current="page">Prototype</a><a href="submission.md" download="Zhihan_Liu_Mock_Assessment.md">Download .md ↓</a></nav></div><main class="wrap"><div class="prototype-host"><header class="page-head"><p class="eyebrow">Interactive prototype / Earlier iteration</p><h1>Earlier version: generic confirmations</h1><p class="lede">Review the quote and original sources, then approve or return it with a specific reason.</p></header><div id="approval-practice" class="viz-dotted-background">
+  <section class="ap-window" aria-label="Quote approval practice">
+    <header class="ap-header"><span>InquiryDesk / Quote approval</span><span class="ap-muted">Interactive practice · Fictional case</span></header>
+    <div class="ap-heading"><div><p class="ap-eyebrow">P-017 · Submitted by Maya</p><h2>Workshop package · Discount review</h2></div><span id="ap-status" class="ap-status">Awaiting manager review</span></div>
+    <div id="ap-review">
+      <div class="ap-columns">
+        <main class="ap-main">
+          <section class="ap-section"><h3>Customer requests</h3><p>Standard workshop package with a <strong>15% discount</strong>; all other terms unchanged.</p><button class="ap-link cursor-interaction" data-source="customer" type="button">View customer message →</button></section>
+          <section class="ap-section"><h3>Draft and standard price</h3><div class="ap-prices"><div><span class="ap-muted">Standard package</span><p>$4,000</p></div><div><span class="ap-muted">Draft price</span><p>$3,400</p></div><div><span class="ap-muted">Requested discount</span><p>15% / $600</p></div></div><p class="ap-muted">Sample amounts; the draft has not been sent.</p><button class="ap-link cursor-interaction" data-source="policy" type="button">View price and approval rule →</button><details><summary class="cursor-interaction">Open the quote draft</summary><p>Workshop package, standard price $4,000. The proposed discounted price is $3,400. Package and cancellation terms are unchanged. This quote does not reserve the venue.</p></details></section>
+          <section class="ap-section"><h3>AI summary · Manager review required</h3><p id="ap-ai-summary">The draft includes a 15% discount. Under the practice policy, discounts above 10% need manager approval.</p><p id="ap-missing" class="ap-missing" hidden>The package price source is missing. Amounts and applicability need review.</p><label class="ap-check cursor-interaction"><input id="ap-check-request" type="checkbox"><span>I checked the request against the quote</span></label><label class="ap-check cursor-interaction"><input id="ap-check-policy" type="checkbox"><span>I checked the price and approval rule</span></label><p class="ap-muted">A linked source is not a completed review. The manager confirms the checks.</p></section>
+        </main>
+        <aside class="ap-evidence" aria-label="Approval evidence"><h3>Sources and communication</h3><div class="ap-source-tabs" aria-label="Choose a source"><button type="button" data-source="customer" class="ap-source cursor-interaction" aria-pressed="true">Customer email</button><button type="button" data-source="policy" class="ap-source cursor-interaction" aria-pressed="false">Price and policy</button><button type="button" data-source="history" class="ap-source cursor-interaction" aria-pressed="false">Communication history</button></div><div id="ap-document" aria-live="polite"></div></aside>
+      </div>
+      <footer class="ap-actions"><p id="ap-hint" aria-live="polite">Complete both checks to approve, or return for more information.</p><div><button id="ap-return" type="button" class="ap-button cursor-interaction">Return for information</button><button id="ap-approve" type="button" class="ap-button ap-primary cursor-interaction" disabled>Approve this quote</button></div></footer>
+      <div id="ap-return-form" class="ap-return-form" role="group" aria-label="Return reason" hidden><label for="ap-reason">What should the coordinator add or revise?</label><textarea id="ap-reason" rows="3" placeholder="Specify what the coordinator needs to do next"></textarea><p id="ap-error" class="ap-error" role="alert" hidden>Enter a reason for returning the quote.</p><div class="ap-form-actions"><button id="ap-cancel" type="button" class="ap-button cursor-interaction">Cancel</button><button id="ap-confirm-return" type="button" class="ap-button ap-primary cursor-interaction">Confirm return</button></div></div>
+    </div>
+    <section id="ap-result" class="ap-result" aria-live="polite" hidden><p class="ap-eyebrow">Review outcome</p><h3 id="ap-result-title"></h3><p id="ap-result-copy"></p><p id="ap-result-reason"></p><p class="ap-muted">Practice record · Reviewer: Leon. The result returns to the coordinator. No email or booking was created.</p><button id="ap-back" type="button" class="ap-button cursor-interaction">Return to the pending review</button></section>
+  </section>
+</div>
+<style>
+#approval-practice{padding:16px 0;color-scheme:light dark;font-family:system-ui,"Microsoft YaHei",sans-serif;font-size:14px;line-height:1.55;--ap-bg:light-dark(#fff,#202225);--ap-fg:light-dark(#202327,#eceef1);--ap-soft:light-dark(#f4f5f6,#2b2e33);--ap-muted:light-dark(#5c626b,#b4bac3);--ap-line:light-dark(#d8dce1,#474d55);--ap-button:light-dark(#282d35,#e4e8ed);--ap-button-text:light-dark(#fff,#1e2227);--ap-warn:light-dark(#7b4d15,#e9bd7c);color:var(--ap-fg)}
+#approval-practice *{box-sizing:border-box}
+#approval-practice [hidden]{display:none!important}
+#approval-practice .ap-window{background:var(--ap-bg);border:1px solid var(--ap-line);border-radius:8px;overflow:hidden}
+#approval-practice .ap-header{padding:12px 24px;border-bottom:1px solid var(--ap-line);display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;padding-right:100px}
+#approval-practice .ap-heading{padding:22px 24px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+#approval-practice h2{font-size:19px;font-weight:500;margin:2px 0}
+#approval-practice h3{font-size:14px;font-weight:500;margin:0 0 10px}
+#approval-practice strong{font-weight:500}
+#approval-practice p{margin:7px 0}
+#approval-practice .ap-muted,#approval-practice .ap-eyebrow{color:var(--ap-muted);font-size:12px}
+#approval-practice .ap-status{font-size:12px;padding:5px 9px;background:var(--ap-soft);border-radius:4px}
+#approval-practice .ap-columns{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:0;padding:0 24px}
+#approval-practice .ap-main{padding-right:22px;min-width:0}
+#approval-practice .ap-section{padding:16px 0;border-top:1px solid var(--ap-line)}
+#approval-practice .ap-prices{display:flex;gap:14px;justify-content:space-between;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+#approval-practice .ap-prices p{font-size:17px;font-weight:500;margin:2px 0}
+#approval-practice .ap-evidence{min-width:0;padding:16px;border:1px solid var(--ap-line);background:var(--ap-soft);align-self:start;border-radius:4px}
+#approval-practice button,#approval-practice textarea,#approval-practice input{font:inherit}
+#approval-practice button{color:inherit}
+#approval-practice .ap-source-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+#approval-practice .ap-source{padding:5px 7px;background:var(--ap-bg);border:1px solid var(--ap-line);border-radius:4px;font-size:12px}
+#approval-practice .ap-source[aria-pressed="true"]{background:var(--ap-button);color:var(--ap-button-text);border-color:var(--ap-button)}
+#approval-practice .ap-link{border:0;background:transparent;padding:6px 0;text-decoration:underline;text-underline-offset:3px;font-size:12px;text-align:left}
+#approval-practice .ap-check{display:flex;gap:9px;align-items:flex-start;padding:9px 0}
+#approval-practice input{margin:4px 0 0;accent-color:var(--ap-button);flex:none}
+#approval-practice .ap-check:has(input:disabled){color:var(--ap-muted)}
+#approval-practice .ap-button{border:1px solid var(--ap-line);border-radius:4px;padding:9px 12px;background:var(--ap-bg)}
+#approval-practice .ap-primary{background:var(--ap-button);color:var(--ap-button-text);border-color:var(--ap-button)}
+#approval-practice .ap-button:disabled{opacity:.45;cursor:not-allowed}
+#approval-practice .ap-actions{padding:16px 24px;border-top:1px solid var(--ap-line)}
+#approval-practice .ap-actions>div,#approval-practice .ap-form-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+#approval-practice .ap-actions>p{color:var(--ap-muted);font-size:12px;margin:0 0 12px}
+#approval-practice .ap-return-form{padding:18px 24px;border-top:1px solid var(--ap-line)}
+#approval-practice textarea{display:block;width:100%;padding:10px;margin:8px 0 12px;background:var(--ap-bg);color:var(--ap-fg);border:1px solid var(--ap-line);border-radius:4px;resize:vertical;font-size:16px}
+#approval-practice .ap-missing,#approval-practice .ap-error{color:var(--ap-warn)}
+#approval-practice .ap-result{padding:20px 24px 28px;border-top:1px solid var(--ap-line)}
+#approval-practice .ap-result-reason{white-space:pre-wrap;overflow-wrap:anywhere}
+#approval-practice blockquote{margin:12px 0;padding-left:12px;border-left:2px solid var(--ap-line)}
+#approval-practice details{margin-top:10px}
+#approval-practice summary{padding:5px 0}
+@media(max-width:620px){#approval-practice .ap-columns{grid-template-columns:1fr;padding:0 16px;gap:10px}#approval-practice .ap-main{padding:0}#approval-practice .ap-header{padding-left:16px}#approval-practice .ap-heading{padding:18px 16px 12px}#approval-practice .ap-evidence{margin-bottom:16px}#approval-practice .ap-actions,#approval-practice .ap-return-form,#approval-practice .ap-result{padding-left:16px;padding-right:16px}}
+@media(pointer:coarse){#approval-practice button,#approval-practice summary,#approval-practice .ap-check{min-height:44px}}
+</style>
+<script>
+(()=>{
+  const root=document.getElementById('approval-practice');
+  const q=id=>root.querySelector('#'+id);
+  const config={missing:false};
+  let selected='customer';
+  const saved=null;
+  let state={request:false,policy:false,decision:'pending',reason:''};
+  function restore(value){const s=value?.privateContent||value;if(s&&s.exercise==='approval-practice'){state.request=!!s.request;state.policy=!!s.policy;state.decision=['pending','approved','returned'].includes(s.decision)?s.decision:'pending';state.reason=typeof s.reason==='string'?s.reason:'';selected=['customer','policy','history'].includes(s.selected)?s.selected:'customer';config.missing=!!s.missing;}}
+  restore(saved);
+  function persist(){}
+  const docs={
+    customer:'<p class="ap-eyebrow">Customer email · Fictional source</p><h3>Discount request</h3><blockquote>We would like the standard workshop package. Could we have a 15% discount? All other terms can stay the same.</blockquote><p class="ap-muted">An added practice fixture, not discovery evidence.</p>',
+    policy:'<p class="ap-eyebrow">Package and policy · Fictional source</p><h3>Standard price and approval authority</h3><p>Standard workshop price: $4,000.</p><blockquote>Discounts above 10%, or changes to cancellation terms, require sales manager approval.</blockquote><p class="ap-muted">The price is fictional. Authority follows the mock brief.</p>',
+    history:'<p class="ap-eyebrow">Linked email thread · Fictional source</p><h3>Inquiry history</h3><p>The customer asked about the standard workshop. The coordinator shared package details. The latest message requests a 15% discount.</p><p class="ap-muted">Only this thread is linked. Other channels have not been checked. A summary does not replace the original record.</p>'
+  };
+  function render(){
+    if(config.missing)state.policy=false;
+    q('ap-check-request').checked=state.request;q('ap-check-policy').checked=state.policy;q('ap-check-policy').disabled=config.missing;
+    q('ap-missing').hidden=!config.missing;
+    q('ap-ai-summary').textContent=config.missing?'The draft includes a 15% discount. The approval rule is linked, but the price source is missing.':'The draft includes a 15% discount. Under the practice policy, discounts above 10% need manager approval.';
+    q('ap-document').innerHTML=selected==='policy'&&config.missing?'<p class="ap-eyebrow">Source needed</p><h3>Package price source missing</h3><p>Linked rule: discounts above 10% require manager approval.</p><p>No applicable standard price source is linked. Amounts need checking.</p>':docs[selected];
+    root.querySelectorAll('.ap-source').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.source===selected)));
+    q('ap-approve').disabled=!(state.request&&state.policy&&!config.missing);
+    q('ap-hint').textContent=config.missing?'The price source is missing. Return for the information needed to complete review.':state.request&&state.policy?'Both checks are recorded. Approval does not send the quote or reserve the venue.':'Complete both checks to approve, or return for more information.';
+    const done=state.decision!=='pending';q('ap-review').hidden=done;q('ap-result').hidden=!done;
+    q('ap-status').textContent=state.decision==='approved'?'Approved':state.decision==='returned'?'Awaiting coordinator update':'Awaiting manager review';
+    q('ap-result-title').textContent=state.decision==='approved'?'Quote approval granted':'Returned to the coordinator';
+    q('ap-result-copy').textContent=state.decision==='approved'?'The coordinator can continue to send the quote. No venue has been reserved.':'The coordinator can add information or revise the quote, then request approval again.';
+    q('ap-result-reason').textContent=state.decision==='returned'?'Return reason: '+state.reason:'';
+    q('ap-result-reason').className='ap-result-reason';
+  }
+  root.querySelectorAll('[data-source]').forEach(b=>b.addEventListener('click',()=>{selected=b.dataset.source;render();persist();}));
+  q('ap-check-request').addEventListener('change',e=>{state.request=e.target.checked;render();persist();});
+  q('ap-check-policy').addEventListener('change',e=>{state.policy=e.target.checked;render();persist();});
+  q('ap-return').addEventListener('click',()=>{q('ap-return-form').hidden=false;q('ap-reason').focus();});
+  q('ap-cancel').addEventListener('click',()=>{q('ap-return-form').hidden=true;q('ap-error').hidden=true;q('ap-return').focus();});
+  q('ap-confirm-return').addEventListener('click',()=>{const reason=q('ap-reason').value.trim();if(!reason){q('ap-error').hidden=false;q('ap-reason').focus();return;}state.decision='returned';state.reason=reason;q('ap-error').hidden=true;q('ap-return-form').hidden=true;render();persist();});
+  q('ap-approve').addEventListener('click',()=>{if(!state.request||!state.policy||config.missing)return;state.decision='approved';render();persist();});
+  q('ap-back').addEventListener('click',()=>{state={request:false,policy:false,decision:'pending',reason:''};q('ap-reason').value='';q('ap-return-form').hidden=true;q('ap-error').hidden=true;render();persist();});
+  render();
+  if(globalThis.Tweak){const tweak=new Tweak({container:root,onChange:()=>{state.decision='pending';q('ap-return-form').hidden=true;render();persist();}});tweak.addToggle(config,'missing',{label:'Simulate a missing price source'});}
+})();
+</script>
+<p class="note">Earlier iteration retained for comparison. <a href="prototype.html">Open the current prototype →</a></p></div></main><footer class="footer"><span>Zhihan Liu · Fictional design practice</span><span>AI-assisted work and human decisions are documented in the report.</span></footer></body></html>

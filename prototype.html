@@ -1,0 +1,117 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="description" content="Fictional design practice by Zhihan Liu. Quote approval, supporting evidence, and human decisions."><title>Evidence beside the decision · Harbor Rooms</title><link rel="stylesheet" href="site.css"></head><body><div class="nav-wrap"><nav class="site-nav" aria-label="Main navigation"><a class="brand" href="index.html">HARBOR ROOMS / DESIGN REVIEW</a><a href="index.html">Overview</a><a href="submission.html">Report</a><a href="prototype.html" aria-current="page">Prototype</a><a href="submission.md" download="Zhihan_Liu_Mock_Assessment.md">Download .md ↓</a></nav></div><main class="wrap"><div class="prototype-host"><header class="page-head"><p class="eyebrow">Interactive prototype / Current iteration</p><h1>Evidence beside the decision</h1><p class="lede">Review the quote and original sources, then approve or return it with a specific reason.</p></header><div id="approval-evidence" class="viz-dotted-background">
+  <div class="ae-exercise"><label for="ae-case">Practice case</label><select id="ae-case" class="cursor-interaction"><option value="a">P-017</option><option value="b">P-018</option><option value="c">P-019</option></select><span>Fictional material · Practice only</span></div>
+  <section class="ae-window" aria-label="Review a quote with evidence">
+    <header class="ae-header"><span>InquiryDesk / Quote approval</span><span id="ae-status">Awaiting manager decision</span></header>
+    <div class="ae-heading"><p class="ae-muted" id="ae-id">P-017 · Submitted by Maya</p><h2>Workshop package · Discount review</h2></div>
+    <div id="ae-review">
+      <div class="ae-columns">
+        <main>
+          <section class="ae-section"><h3>Quote summary</h3><p>30-person workshop · 15% discount requested</p><div class="ae-prices"><div><span class="ae-muted">Standard price in draft</span><p>$4,000</p></div><div><span class="ae-muted">Proposed quote</span><p>$3,400</p></div></div><button type="button" class="ae-link cursor-interaction" data-source="quote">View full draft →</button></section>
+          <section class="ae-section"><h3>Evidence for this review</h3><p class="ae-muted">Sources for this review. Linked means located, not verified or complete.</p>
+            <div class="ae-row"><div><span>Customer requests</span><p class="ae-muted">AI extraction: 15% discount; other terms unchanged</p></div><button type="button" data-source="customer" class="ae-tag cursor-interaction">Linked · View original</button></div>
+            <div class="ae-row"><div><span>Standard price and applicability</span><p class="ae-muted" id="ae-price-description">Current month · Workshops for 1–40 people</p></div><button type="button" data-source="price" id="ae-price-source" class="ae-tag cursor-interaction">Linked · View source</button></div>
+            <div class="ae-row"><div><span>Approval authority</span><p class="ae-muted">Above 10% requires a sales manager</p></div><button type="button" data-source="rule" class="ae-tag cursor-interaction">Linked · View rule</button></div>
+            <div class="ae-row"><div><span>Communication history</span><p class="ae-muted">Current email thread linked</p></div><button type="button" data-source="history" class="ae-tag cursor-interaction">View thread</button></div>
+            <p class="ae-muted">Phone and Slack are not linked. Review the source scope for this case.</p>
+          </section>
+          <section id="ae-issue" class="ae-issue" aria-live="polite" hidden><h3>Needs information or clarification</h3><p id="ae-issue-copy"></p></section>
+        </main>
+        <aside class="ae-evidence" aria-label="Original evidence"><p class="ae-muted" id="ae-source-meta"></p><h3 id="ae-source-title"></h3><div id="ae-document"></div><button id="ae-flag" type="button" class="ae-link cursor-interaction" aria-pressed="false">Flag this source for clarification</button><p class="ae-muted">The AI summary and source are separate. An unflagged source may still contain an error.</p></aside>
+      </div>
+      <section class="ae-decision"><h3>Manager decision: authorize this 15% discount?</h3><p id="ae-decision-copy">Review the quote, applicable rules, and customer request before deciding.</p><div class="ae-actions"><button id="ae-return" type="button" class="ae-button cursor-interaction">Return for information or revision</button><button id="ae-approve" type="button" class="ae-button ae-primary cursor-interaction">Approve the 15% discount</button></div><p class="ae-muted">Approval applies to this quote. It does not send an email or reserve the venue.</p></section>
+      <div id="ae-return-panel" class="ae-return-panel" role="group" aria-label="Return reason" hidden><label for="ae-reason">What should the coordinator add or revise?</label><textarea id="ae-reason" rows="3" placeholder="Name the source or term and the next step needed"></textarea><p id="ae-error" role="alert" hidden>Enter a specific return reason.</p><div class="ae-actions"><button id="ae-cancel" type="button" class="ae-button cursor-interaction">Cancel</button><button id="ae-confirm-return" type="button" class="ae-button ae-primary cursor-interaction">Confirm return</button></div></div>
+    </div>
+    <section id="ae-result" class="ae-result" aria-live="polite" hidden><p class="ae-muted">Practice approval record · Leon</p><h3 id="ae-result-title"></h3><p id="ae-result-copy"></p><p id="ae-result-reason"></p><p class="ae-muted">No real email or booking was created.</p><button id="ae-back" type="button" class="ae-button cursor-interaction">Return this case to pending review</button></section>
+  </section>
+</div>
+<style>
+#approval-evidence{padding:12px 0;color-scheme:light dark;font-family:system-ui,"Microsoft YaHei",sans-serif;font-size:14px;line-height:1.55;--ae-bg:light-dark(#fff,#202225);--ae-fg:light-dark(#202327,#eceef1);--ae-soft:light-dark(#f4f5f6,#2b2e33);--ae-muted:light-dark(#5c626b,#b4bac3);--ae-line:light-dark(#d8dce1,#474d55);--ae-button:light-dark(#282d35,#e4e8ed);--ae-button-text:light-dark(#fff,#1e2227);--ae-warn:light-dark(#80500f,#f0c085);color:var(--ae-fg)}
+#approval-evidence *{box-sizing:border-box}
+#approval-evidence [hidden]{display:none!important}
+#approval-evidence .ae-exercise{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:0 100px 12px 0;font-size:12px}
+#approval-evidence .ae-exercise span{color:var(--ae-muted)}
+#approval-evidence select{font:inherit;padding:5px 8px;background:var(--ae-bg);color:var(--ae-fg);border:1px solid var(--ae-line);border-radius:4px}
+#approval-evidence .ae-window{background:var(--ae-bg);border:1px solid var(--ae-line);border-radius:8px;overflow:hidden}
+#approval-evidence .ae-header{padding:12px 20px;border-bottom:1px solid var(--ae-line);display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;font-size:12px}
+#approval-evidence .ae-heading{padding:16px 20px 12px}
+#approval-evidence h2{font-size:18px;font-weight:500;margin:3px 0}
+#approval-evidence h3{font-size:14px;font-weight:500;margin:0 0 8px}
+#approval-evidence p{margin:6px 0}
+#approval-evidence .ae-muted{color:var(--ae-muted);font-size:12px}
+#approval-evidence .ae-columns{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;padding:0 20px}
+#approval-evidence main{min-width:0}
+#approval-evidence .ae-section{padding:14px 0;border-top:1px solid var(--ae-line)}
+#approval-evidence .ae-prices{display:flex;gap:24px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+#approval-evidence .ae-prices p{font-size:18px;font-weight:500;margin:2px 0}
+#approval-evidence .ae-row{display:flex;align-items:start;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--ae-line)}
+#approval-evidence .ae-row>div{min-width:0}
+#approval-evidence .ae-row p{margin:3px 0 0}
+#approval-evidence .ae-evidence{min-width:0;align-self:start;background:var(--ae-soft);padding:14px;border:1px solid var(--ae-line);border-radius:4px}
+#approval-evidence button,#approval-evidence textarea{font:inherit}
+#approval-evidence button{color:inherit}
+#approval-evidence .ae-link{border:0;padding:7px 0;background:transparent;text-decoration:underline;text-underline-offset:3px;font-size:12px;text-align:left}
+#approval-evidence .ae-link[aria-pressed="true"]{font-weight:500;color:var(--ae-warn)}
+#approval-evidence .ae-tag{font-size:12px;flex:none;max-width:48%;padding:5px 7px;background:var(--ae-bg);border:1px solid var(--ae-line);border-radius:4px;text-align:left}
+#approval-evidence .ae-tag.ae-selected{background:var(--ae-button);color:var(--ae-button-text);border-color:var(--ae-button)}
+#approval-evidence .ae-tag.ae-missing{color:var(--ae-warn);background:var(--ae-bg);border-color:var(--ae-line)}
+#approval-evidence .ae-issue{padding:14px 0;color:var(--ae-warn);border-top:1px solid var(--ae-line)}
+#approval-evidence .ae-decision{padding:16px 20px;border-top:1px solid var(--ae-line)}
+#approval-evidence .ae-decision>p{font-size:12px}
+#approval-evidence .ae-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin:12px 0}
+#approval-evidence .ae-button{padding:9px 12px;background:var(--ae-bg);border:1px solid var(--ae-line);border-radius:4px}
+#approval-evidence .ae-primary{background:var(--ae-button);color:var(--ae-button-text);border-color:var(--ae-button)}
+#approval-evidence .ae-button:disabled{opacity:.45;cursor:not-allowed}
+#approval-evidence .ae-return-panel,#approval-evidence .ae-result{padding:16px 20px;border-top:1px solid var(--ae-line)}
+#approval-evidence textarea{display:block;width:100%;padding:10px;margin:8px 0;background:var(--ae-bg);color:var(--ae-fg);border:1px solid var(--ae-line);border-radius:4px;resize:vertical;font-size:16px}
+#approval-evidence #ae-error{color:var(--ae-warn)}
+#approval-evidence #ae-result-reason{white-space:pre-wrap;overflow-wrap:anywhere}
+#approval-evidence blockquote{margin:12px 0;padding-left:10px;border-left:2px solid var(--ae-line)}
+@media(max-width:620px){#approval-evidence .ae-columns{grid-template-columns:1fr;gap:4px;padding:0 16px}#approval-evidence .ae-evidence{margin-bottom:16px}#approval-evidence .ae-header,#approval-evidence .ae-heading,#approval-evidence .ae-decision,#approval-evidence .ae-return-panel,#approval-evidence .ae-result{padding-left:16px;padding-right:16px}}
+@media(pointer:coarse){#approval-evidence button,#approval-evidence select{min-height:44px}}
+</style>
+<script>
+(()=>{
+  const root=document.getElementById('approval-evidence');
+  const q=id=>root.querySelector('#'+id);
+  const caseIds={a:'P-017',b:'P-018',c:'P-019'};
+  const sourceNames={customer:'Customer email',price:'Standard price source',rule:'Approval rule',history:'Current email thread',quote:'Quote draft'};
+  let state={exercise:'approval-evidence',case:'a',source:'customer',decision:'pending',flags:[],reason:''};
+  function restore(raw){const s=raw?.privateContent||raw;if(!s||s.exercise!=='approval-evidence')return;state.case=caseIds[s.case]?s.case:'a';state.source=sourceNames[s.source]?s.source:'customer';state.decision=['pending','approved','returned'].includes(s.decision)?s.decision:'pending';state.flags=Array.isArray(s.flags)?s.flags.filter(v=>sourceNames[v]):[];state.reason=typeof s.reason==='string'?s.reason:'';}
+  function save(){}
+  function documentHtml(){
+    if(state.source==='customer')return state.case==='c'?'<blockquote>Please arrange the standard workshop for 30 people. Could we have a 15% discount? We would also like free cancellation until 3 days before the event instead of 7 days.</blockquote><p class="ae-muted">Latest customer email · Fictional original</p>':'<blockquote>Please arrange the standard workshop for 30 people. Could we have a 15% discount? All other terms can stay the same.</blockquote><p class="ae-muted">Latest customer email · Fictional original</p>';
+    if(state.source==='price')return state.case==='b'?'<p>No standard price source applicable to this quote was found.</p><p>The draft lists $4,000, but its source, scope, and effective version are missing.</p>':'<p>Standard workshop package: $4,000.</p><p>For 1–40 people; applicable to quotes this month.</p><p>Default free cancellation deadline: 7 days before the event.</p><p class="ae-muted">Source: business-maintained monthly package table · Fictional material</p>';
+    if(state.source==='rule')return '<blockquote>Discounts above 10%, or changes to cancellation terms, require sales manager approval.</blockquote><p class="ae-muted">Source: the mock brief business rules</p>';
+    if(state.source==='history')return '<p>In this thread, the customer asked about a 30-person workshop. The coordinator shared standard package details. The customer then submitted special requests.</p><p class="ae-muted">Only this thread is linked. Phone, Slack, and other threads are not linked.</p>';
+    return '<p>Standard workshop for 30 people: $4,000, discounted by 15% to $3,400.</p><p>Free cancellation deadline: 7 days before the event. Other package terms remain unchanged.</p><p>This quote does not book or reserve the venue.</p><p class="ae-muted">AI quote draft · Not sent</p>';
+  }
+  function render(){
+    const missing=state.case==='b';const blocked=missing||state.flags.length>0;const done=state.decision!=='pending';
+    q('ae-case').value=state.case;q('ae-id').textContent=caseIds[state.case]+' · Submitted by Maya';
+    q('ae-source-meta').textContent='Linked source · '+sourceNames[state.source];q('ae-source-title').textContent=sourceNames[state.source];q('ae-document').innerHTML=documentHtml();
+    q('ae-price-description').textContent=missing?'Applicable price source missing; draft amounts are not supported':'Current month · Workshops for 1–40 people';
+    q('ae-price-source').textContent=missing?'Missing · View gap':'Linked · View source';
+    root.querySelectorAll('.ae-tag').forEach(b=>{b.classList.toggle('ae-selected',b.dataset.source===state.source);b.classList.toggle('ae-missing',b.dataset.source==='price'&&missing);});
+    const flagged=state.flags.includes(state.source);q('ae-flag').textContent=flagged?'Remove clarification flag':'Flag this source for clarification';q('ae-flag').setAttribute('aria-pressed',String(flagged));
+    const issues=[];if(missing)issues.push('The standard price source is missing. Supply an applicable source.');state.flags.forEach(s=>issues.push('Manager flagged: '+sourceNames[s]+' needs information or clarification.'));
+    q('ae-issue').hidden=!blocked;q('ae-issue-copy').textContent=issues.join(' ');
+    q('ae-approve').disabled=blocked;
+    q('ae-decision-copy').textContent=blocked?'A source issue remains unresolved. Specify the information or revision needed before approval.':'Review the quote, applicable rules, and customer request before deciding.';
+    q('ae-review').hidden=done;q('ae-result').hidden=!done;
+    q('ae-status').textContent=state.decision==='approved'?'Approved':state.decision==='returned'?'Awaiting coordinator update':blocked?'Needs information or clarification':'Awaiting manager decision';
+    q('ae-result-title').textContent=state.decision==='approved'?'Approved the 15% discount in this quote':'Returned to the coordinator for information or revision';
+    q('ae-result-copy').textContent=state.decision==='approved'?'The result returns to the coordinator. This quote can continue to the sending step.':'After adding information or revising the quote, the coordinator requests approval again.';
+    q('ae-result-reason').textContent=state.decision==='returned'?'Return reason: '+state.reason:'';
+  }
+  root.querySelectorAll('[data-source]').forEach(b=>b.addEventListener('click',()=>{state.source=b.dataset.source;render();save();}));
+  q('ae-flag').addEventListener('click',()=>{const i=state.flags.indexOf(state.source);if(i>=0)state.flags.splice(i,1);else state.flags.push(state.source);render();save();});
+  q('ae-return').addEventListener('click',()=>{q('ae-return-panel').hidden=false;q('ae-reason').focus();});
+  q('ae-cancel').addEventListener('click',()=>{q('ae-return-panel').hidden=true;q('ae-error').hidden=true;q('ae-return').focus();});
+  q('ae-confirm-return').addEventListener('click',()=>{const reason=q('ae-reason').value.trim();if(!reason){q('ae-error').hidden=false;q('ae-reason').focus();return;}state.decision='returned';state.reason=reason;q('ae-return-panel').hidden=true;q('ae-error').hidden=true;render();save();});
+  q('ae-approve').addEventListener('click',()=>{if(state.case==='b'||state.flags.length)return;state.decision='approved';render();save();});
+  q('ae-back').addEventListener('click',()=>{state.decision='pending';state.flags=[];state.reason='';q('ae-reason').value='';q('ae-return-panel').hidden=true;q('ae-error').hidden=true;render();save();});
+  q('ae-case').addEventListener('change',e=>{state={exercise:'approval-evidence',case:e.target.value,source:'customer',decision:'pending',flags:[],reason:''};q('ae-return-panel').hidden=true;q('ae-error').hidden=true;q('ae-reason').value='';render();save();});
+  render();
+})();
+</script>
+<details class="scenario-notes"><summary>Practice scenarios and implementation limits</summary><ul><li>P-017: discount request with linked price and rule sources.</li><li>P-018: applicable price source missing; approval is paused as a design hypothesis.</li><li>P-019: compare the original customer request with the summary and quote. This fixture contains a discrepancy.</li></ul><p>This is a browser-only prototype. Refresh resets the practice. Decisions do not send emails, reserve venues, or create real approval records. Source retrieval and AI are simulated.</p><a href="earlier-prototype.html">Compare the earlier version with required checkboxes →</a></details></div></main><footer class="footer"><span>Zhihan Liu · Fictional design practice</span><span>AI-assisted work and human decisions are documented in the report.</span></footer></body></html>

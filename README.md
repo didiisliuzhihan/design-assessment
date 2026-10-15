@@ -1,7 +1,7 @@
-# Design assessment practice
+# Marsh & Colby design assessment
 
-Fictional, guided product design practice by Zhihan Liu. This is a deployment rehearsal, not a formal assessment submission.
+Design by Zhihan Liu for the Ajaia Digital Product Designer assessment.
 
-Open index.html for the overview, prototype.html for the interactive review flow, and submission.html for the report. submission.md is the downloadable Markdown source.
+Live site: https://assessment.zhihanliu.art/
 
-All business material is fictional. AI collaboration and human decisions are disclosed in the report. The prototype does not send emails or create bookings.
+The report contains the supplied-evidence synthesis, four next questions, user journey, three-screen prototype and AI workflow note. Prototype data are illustrative; no real policy is activated.
